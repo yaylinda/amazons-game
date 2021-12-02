@@ -15,9 +15,8 @@ const PLAYER_1 = "P1"
 const PLAYER_2 = "P2"
 
 type Piece struct {
-	pieceType    string
-	player       string
-	currentCoord *Coordinate
+	pieceType string
+	player    string
 }
 
 type Board [SIZE][SIZE]*Piece
@@ -32,30 +31,28 @@ func initializeBoard() Board {
 	board := Board{}
 
 	// Put player 1's initial pieces on the board
-	board = putPieceOnBoard(board, Coordinate{0, 3}, Piece{AMAZON_PIECE, PLAYER_1, nil})
-	board = putPieceOnBoard(board, Coordinate{0, 6}, Piece{AMAZON_PIECE, PLAYER_1, nil})
-	board = putPieceOnBoard(board, Coordinate{3, 0}, Piece{AMAZON_PIECE, PLAYER_1, nil})
-	board = putPieceOnBoard(board, Coordinate{3, 9}, Piece{AMAZON_PIECE, PLAYER_1, nil})
+	board = putPieceOnBoard(board, nil, Coordinate{0, 3}, Piece{AMAZON_PIECE, PLAYER_1})
+	board = putPieceOnBoard(board, nil, Coordinate{0, 6}, Piece{AMAZON_PIECE, PLAYER_1})
+	board = putPieceOnBoard(board, nil, Coordinate{3, 0}, Piece{AMAZON_PIECE, PLAYER_1})
+	board = putPieceOnBoard(board, nil, Coordinate{3, 9}, Piece{AMAZON_PIECE, PLAYER_1})
 
 	// Put player 2's initial pieces on the board
-	board = putPieceOnBoard(board, Coordinate{6, 0}, Piece{AMAZON_PIECE, PLAYER_2, nil})
-	board = putPieceOnBoard(board, Coordinate{6, 9}, Piece{AMAZON_PIECE, PLAYER_2, nil})
-	board = putPieceOnBoard(board, Coordinate{9, 3}, Piece{AMAZON_PIECE, PLAYER_2, nil})
-	board = putPieceOnBoard(board, Coordinate{9, 6}, Piece{AMAZON_PIECE, PLAYER_2, nil})
+	board = putPieceOnBoard(board, nil, Coordinate{6, 0}, Piece{AMAZON_PIECE, PLAYER_2})
+	board = putPieceOnBoard(board, nil, Coordinate{6, 9}, Piece{AMAZON_PIECE, PLAYER_2})
+	board = putPieceOnBoard(board, nil, Coordinate{9, 3}, Piece{AMAZON_PIECE, PLAYER_2})
+	board = putPieceOnBoard(board, nil, Coordinate{9, 6}, Piece{AMAZON_PIECE, PLAYER_2})
 
 	return board
 }
 
 // export putPieceOnBoard
-func putPieceOnBoard(board Board, coord Coordinate, piece Piece) Board {
+func putPieceOnBoard(board Board, oldCoord *Coordinate, newCoord Coordinate, piece Piece) Board {
 
-	if piece.currentCoord != nil {
-		board[piece.currentCoord.x][piece.currentCoord.y] = nil
-		piece.currentCoord.x = coord.x
-		piece.currentCoord.y = coord.y
+	if oldCoord != nil {
+		board[oldCoord.x][oldCoord.y] = nil
 	}
 
-	board[coord.x][coord.y] = &piece
+	board[newCoord.x][newCoord.y] = &piece
 
 	return board
 }
@@ -86,5 +83,12 @@ func printBoard(board Board) {
 
 func main() {
 	board := initializeBoard()
+
+	fmt.Println("Initial board:")
+	printBoard(board)
+
+	fmt.Println("")
+	board = putPieceOnBoard(board, &Coordinate{0, 3}, Coordinate{8, 3}, Piece{AMAZON_PIECE, PLAYER_1})
+	fmt.Println("Updated board:")
 	printBoard(board)
 }
