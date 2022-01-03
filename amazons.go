@@ -26,6 +26,17 @@ type Coordinate struct {
 	y uint8
 }
 
+type MoveOption struct {
+	oldCoord Coordinate
+	newCoord Coordinate
+	piece    Piece
+}
+
+type PieceCoord struct {
+	piece Piece
+	coord Coordinate
+}
+
 // export initializeBoard
 func initializeBoard() Board {
 	board := Board{}
@@ -55,6 +66,41 @@ func putPieceOnBoard(board Board, oldCoord *Coordinate, newCoord Coordinate, pie
 	board[newCoord.x][newCoord.y] = &piece
 
 	return board
+}
+
+// export doTurn
+func doTurn(player string, board Board) {
+
+}
+
+// export evaluateBoard
+func evaluateBoard(board Board) {
+
+}
+
+// export getMovesForPlayer
+func getMovesForPlayer(player string, board Board) []MoveOption {
+	var playerPieceCoords []PieceCoord
+
+	for i := 0; i < SIZE; i++ {
+		for j := 0; j < SIZE; j++ {
+			piece := board[i][j]
+
+			if piece.player != player {
+				continue
+			}
+
+			playerPieceCoords = append(playerPieceCoords, PieceCoord{})
+		}
+	}
+
+	fmt.Println("Pieces:", playerPieceCoords)
+
+	var moves []MoveOption
+
+	// TODO - get moves
+
+	return moves
 }
 
 // export printBoard
